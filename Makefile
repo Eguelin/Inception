@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/28 17:47:48 by eguelin           #+#    #+#              #
-#    Updated: 2024/01/30 16:43:29 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/16 17:21:43 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,21 +18,14 @@
 # **************************************************************************** #
 
 NAME	= Inception
-SRC_DIR	= srcs/
-BUILD	= docker build -t
-RUN		= docker run
-STOP	= docker stop
-RM		= docker rm
+DC		= docker compose
 
 # **************************************************************************** #
 #                                    Sources                                   #
 # **************************************************************************** #
 
-EQUI_DIR = equirements/
-
-NGINX_DIR = nginx/
-
-NGINX_PATH = $(SRC_DIR)$(EQUI_DIR)$(NGINX_DIR)
+SRC_DIR			= srcs/
+COMPOSE_FILE	= $(SRC_DIR)docker-compose.yml
 
 # **************************************************************************** #
 #                                     Rules                                    #
@@ -41,14 +34,13 @@ NGINX_PATH = $(SRC_DIR)$(EQUI_DIR)$(NGINX_DIR)
 all: $(NAME)
 
 $(NAME):
-	$(BUILD) nginx $(NGINX_PATH)
-	$(RUN) -d -p 443:443 nginx
+	$(DC) -f $(COMPOSE_FILE) up -d --build
 
 clean:
-	$(STOP) $$(docker ps -aq)
+	$(DC) -f $(COMPOSE_FILE) down
 
 fclean: clean
-	$(RM) $$(docker ps -aq)
+	$(DC) -f $(COMPOSE_FILE) down --volumes --rmi all
 
 re: fclean all
 

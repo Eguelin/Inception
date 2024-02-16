@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 19:24:50 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/15 18:17:20 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/16 17:16:43 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,32 +15,58 @@ version: '3.8'
 services:
 
   mariadb:
-    build: ./requirements/mariadb/
+    container_name: mariadb
+    build:
+      context: ./requirements/mariadb/
+      args:
+        - MARIADB_ROOT_PASSWORD
+        - MARIADB_DATABASE
+        - MARIADB_USER
+        - MARIADB_PASSWORD
     env_file: .env
+    image: mariadb:latest
     ports:
       - 3306:3306
     volumes:
       - mariadb:/var/lib/mysql
+    networks:
+      - inception
+    restart: always
 
   # wordpress:
-  #   build: ./requirements/wordpress
+  #   container_name: wordpress
+  #   build:
+  #     context: ./requirements/wordpress/
+  #     args:
+  #       - WORDPRESS_DB_HOST
+  #       - WORDPRESS_DB_USER
+  #       - WORDPRESS_DB_PASSWORD
+  #       - WORDPRESS_DB_NAME
   #   env_file: .env
+  #   image: wordpress
   #   ports:
   #     - 9000:9000
   #   volumes:
   #     - wordpress:/var/www/html
   #   depends_on:
   #     - mariadb
+  #   networks:
+  #     - inception
+  #   restart: always
 
   # nginx:
+  #   container_name: nginx
   #   build: ./requirements/nginx
-  #   env_file: .env
+  #   image: nginx
   #   ports:
   #     - 443:443
   #   volumes:
   #     - wordpress:/var/www/html
   #   depends_on:
   #     - wordpress
+  #   networks:
+  #     - inception
+  #   restart: always
 
 volumes:
 
@@ -59,3 +85,9 @@ volumes:
   #     type: 'none'
   #     o: 'bind'
   #     device: '/home/eguelin/volumes'
+
+networks:
+
+    inception:
+      name: inception
+      driver: bridge
