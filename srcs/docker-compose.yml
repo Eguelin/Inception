@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 19:24:50 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/16 17:16:43 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/17 16:23:18 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,10 @@ services:
     build:
       context: ./requirements/mariadb/
       args:
-        - MARIADB_ROOT_PASSWORD
-        - MARIADB_DATABASE
-        - MARIADB_USER
-        - MARIADB_PASSWORD
+        - DB_ROOT_PASSWORD
+        - DB_DATABASE
+        - DB_USER
+        - DB_PASSWORD
     env_file: .env
     image: mariadb:latest
     ports:
@@ -38,10 +38,9 @@ services:
   #   build:
   #     context: ./requirements/wordpress/
   #     args:
-  #       - WORDPRESS_DB_HOST
-  #       - WORDPRESS_DB_USER
-  #       - WORDPRESS_DB_PASSWORD
-  #       - WORDPRESS_DB_NAME
+  #       - DB_DATABASE
+  #       - DB_USER
+  #       - DB_PASSWORD
   #   env_file: .env
   #   image: wordpress
   #   ports:

@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/28 17:47:48 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/16 17:21:43 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/17 16:31:39 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,13 +34,14 @@ COMPOSE_FILE	= $(SRC_DIR)docker-compose.yml
 all: $(NAME)
 
 $(NAME):
-	$(DC) -f $(COMPOSE_FILE) up -d --build
+	$(DC) -f $(COMPOSE_FILE) up --build
 
 clean:
 	$(DC) -f $(COMPOSE_FILE) down
 
 fclean: clean
 	$(DC) -f $(COMPOSE_FILE) down --volumes --rmi all
+	docker system prune --force --all
 
 re: fclean all
 
