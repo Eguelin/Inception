@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 19:24:50 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/17 16:23:18 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/26 14:18:32 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,24 +14,24 @@ version: '3.8'
 
 services:
 
-  mariadb:
-    container_name: mariadb
-    build:
-      context: ./requirements/mariadb/
-      args:
-        - DB_ROOT_PASSWORD
-        - DB_DATABASE
-        - DB_USER
-        - DB_PASSWORD
-    env_file: .env
-    image: mariadb:latest
-    ports:
-      - 3306:3306
-    volumes:
-      - mariadb:/var/lib/mysql
-    networks:
-      - inception
-    restart: always
+  # mariadb:
+  #   container_name: mariadb
+  #   build:
+  #     context: ./requirements/mariadb/
+  #     args:
+  #       - DB_ROOT_PASSWORD
+  #       - DB_DATABASE
+  #       - DB_USER
+  #       - DB_PASSWORD
+  #   env_file: .env
+  #   image: mariadb:latest
+  #   ports:
+  #     - 3306:3306
+  #   volumes:
+  #     - mariadb:/var/lib/mysql
+  #   networks:
+  #     - inception
+  #   restart: always
 
   # wordpress:
   #   container_name: wordpress
@@ -53,37 +53,37 @@ services:
   #     - inception
   #   restart: always
 
-  # nginx:
-  #   container_name: nginx
-  #   build: ./requirements/nginx
-  #   image: nginx
-  #   ports:
-  #     - 443:443
-  #   volumes:
-  #     - wordpress:/var/www/html
-  #   depends_on:
-  #     - wordpress
-  #   networks:
-  #     - inception
-  #   restart: always
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx
+    image: nginx
+    ports:
+      - 443:443
+    volumes:
+      - wordpress:/var/www/html
+    # depends_on:
+    #   - wordpress
+    networks:
+      - inception
+    restart: always
 
 volumes:
 
-  mariadb:
-    name: mariadb
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: '/home/eguelin/volumes'
-
-  # wordpress:
-  #   name: wordpress
+  # mariadb:
+  #   name: mariadb
   #   driver: local
   #   driver_opts:
   #     type: 'none'
   #     o: 'bind'
   #     device: '/home/eguelin/volumes'
+
+  wordpress:
+    name: wordpress
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/eguelin/volumes'
 
 networks:
 
