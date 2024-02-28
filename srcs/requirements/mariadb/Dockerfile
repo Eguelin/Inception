@@ -6,16 +6,16 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 15:03:32 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/17 16:27:39 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/28 11:40:43 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 #Import image of the penultimate stable version of Debian
-FROM debian:buster-slim
+FROM debian:oldstable-slim
 
 #Import environment variables
 ARG DB_ROOT_PASSWORD
-ARG DB_DATABASE
+ARG DB_NAME
 ARG DB_USER
 ARG DB_PASSWORD
 
@@ -27,10 +27,10 @@ RUN apt update -y && \
     rm -fr /var/lib/apt/lists/*
 
 #Create a database
-RUN service mysql start && \
-	mysql -u root -p${DB_ROOT_PASSWORD} -e "CREATE DATABASE IF NOT EXISTS ${DB_DATABASE};" \
+RUN service mariadb start && \
+	mariadb -u root -p${DB_ROOT_PASSWORD} -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};" \
 	-e "CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';" \
-	-e "GRANT ALL PRIVILEGES ON ${DB_DATABASE}.* TO '${DB_USER}'@'localhost';" \
+	-e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost';" \
 	-e "FLUSH PRIVILEGES;"
 
 #expose MariaDB port

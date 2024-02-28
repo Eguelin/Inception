@@ -6,23 +6,37 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 15:03:26 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/17 16:14:46 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/28 11:49:55 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-#Import image of the penultimate stable version of Debian
-FROM debian:buster-slim
+# Import image of the penultimate stable version of Debian
+FROM debian:oldstable-slim
 
-#Import environment variables
-ARG MARIADB_DATABASE
-ARG MARIADB_USER
-ARG MARIADB_PASSWORD
+# Install PHP
+RUN apt update -y && \
+	apt upgrade -y && \
+	apt install -y php-fpm php-mysql curl && \
+	apt clean && \
+	rm -fr /var/lib/apt/lists/*
 
-#Install Wordpress
+# Install WP-CLI and WordPress
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+	chmod +x wp-cli.phar && \
+	php wp-cli.phar --info && \
+	mv wp-cli.phar /usr/local/bin/wp && \
+	mkdir -p /var/www/html && \
+	chown www-data:www-data /var/www/html && \
+	wp core download --path=/var/www/html/wordpress --allow-root
 
+# Copy WordPress script
+COPY tools/wordpress.sh /usr/local/bin/wordpress.sh
 
-#expose Wordpress port
+# Set permissions
+RUN chmod +x /usr/local/bin/wordpress.sh
+
+# Expose PHP-FPM port
 EXPOSE 9000
 
-#Start Wordpress
-CMD ["php-fpm7.3", "-g", "daemon off;"]
+# Start PHP-FPM
+CMD ["wordpress.sh"]

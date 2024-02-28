@@ -6,12 +6,12 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 15:03:35 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/26 14:35:32 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/27 18:04:19 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 #Import image of the penultimate stable version of Debian
-FROM debian:buster-slim
+FROM debian:oldstable-slim
 
 #Install Nginx and OpenSSL
 RUN apt update -y && \
@@ -23,14 +23,14 @@ RUN apt update -y && \
 
 #Create SSL certificate
 RUN openssl req -x509 -nodes -newkey rsa:2048 \
-	-keyout /etc/ssl/private/eguelin.key \
-	-out /etc/ssl/certs/eguelin.crt \
+	-keyout /etc/ssl/private/eguelin.42.fr.key \
+	-out /etc/ssl/certs/eguelin.42.fr.crt \
 	-subj "/C=FR/ST=Auvergne-Rhône-Alpes/L=Lyon/O=42/OU=eguelin/CN=eguelin.42.fr/emailAddress=eguelin@student.42lyon.fr"
 
 #Copy Nginx configuration file
-COPY conf/nginx.conf /etc/nginx/sites-available/default
+COPY conf/nginx.conf /etc/nginx/nginx.conf
 
-#expose Nginx port
+#Expose Nginx port
 EXPOSE 443
 
 #Start Nginx
