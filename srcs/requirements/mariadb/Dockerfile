@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 15:03:32 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/28 11:40:43 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/28 16:55:48 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,17 +21,18 @@ ARG DB_PASSWORD
 
 #Install MariaDB
 RUN apt update -y && \
-    apt upgrade -y && \
-    apt install -y mariadb-server && \
-    apt clean && \
-    rm -fr /var/lib/apt/lists/*
+	apt upgrade -y && \
+	apt install -y mariadb-server && \
+	apt clean && \
+	rm -fr /var/lib/apt/lists/*
 
 #Create a database
-RUN service mariadb start && \
-	mariadb -u root -p${DB_ROOT_PASSWORD} -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};" \
-	-e "CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';" \
-	-e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost';" \
-	-e "FLUSH PRIVILEGES;"
+RUN service mariadb start \
+	&& mariadb -u root -e	"CREATE DATABASE IF NOT EXISTS ${DB_NAME}; \
+							ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}'; \
+							CREATE USER ${DB_USER}@'%' IDENTIFIED BY '${DB_PASSWORD}'; \
+							GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%'; \
+							FLUSH PRIVILEGES;"
 
 #expose MariaDB port
 EXPOSE 3306

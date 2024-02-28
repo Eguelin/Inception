@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 15:03:26 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/28 11:49:55 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/28 16:43:35 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 	php wp-cli.phar --info && \
 	mv wp-cli.phar /usr/local/bin/wp && \
 	mkdir -p /var/www/html && \
-	chown www-data:www-data /var/www/html && \
 	wp core download --path=/var/www/html/wordpress --allow-root
 
 # Copy WordPress script
