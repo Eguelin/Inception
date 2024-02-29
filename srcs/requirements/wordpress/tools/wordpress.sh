@@ -29,6 +29,9 @@ if [ ! -d /var/www/html/wordpress ]; then
 				   --allow-root
 fi
 
+# Set Permissions
+chown -R www-data:www-data /var/www/html/wordpress
+
 # Start PHP
 mkdir -p /run/php
 php-fpm7.4 -F

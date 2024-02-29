@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 19:24:50 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/29 11:07:47 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/29 18:27:07 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ services:
         - DB_USER
         - DB_PASSWORD
     env_file: .env
-    image: mariadb:latest
+    image: mariadb
     volumes:
       - mariadb:/var/lib/mysql
     networks:
