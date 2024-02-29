@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 15:03:26 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/28 17:14:50 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/29 10:16:56 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,4 +38,4 @@ RUN chmod +x /usr/local/bin/wordpress.sh
 EXPOSE 9000
 
 # Start PHP-FPM
-CMD ["wordpress.sh"]
+ENTRYPOINT ["wordpress.sh"]

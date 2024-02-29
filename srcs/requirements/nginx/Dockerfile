@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 15:03:35 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/27 18:04:19 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/02/29 12:08:44 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,7 @@ FROM debian:oldstable-slim
 #Install Nginx and OpenSSL
 RUN apt update -y && \
 	apt upgrade -y && \
-	apt install -y nginx && \
-	apt install -y openssl && \
+	apt install -y nginx openssl && \
 	apt clean && \
 	rm -fr /var/lib/apt/lists/*
 
@@ -34,4 +33,4 @@ COPY conf/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 443
 
 #Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
