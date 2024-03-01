@@ -1,19 +1,19 @@
 #!/bin/bash
 
 if [ ! -d /var/www/html/wordpress ]; then
-	# Install WordPress
-	wp core download --path=/var/www/html/wordpress --allow-root
+	# Download WordPress
+	wp-cli.phar core download --path=/var/www/html/wordpress --allow-root
 
 	# Config Database
-	cp /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
-	sed -i "s/database_name_here/${DB_NAME}/g" /var/www/html/wordpress/wp-config.php
-	sed -i "s/username_here/${DB_USER}/g" /var/www/html/wordpress/wp-config.php
-	sed -i "s/password_here/${DB_PASSWORD}/g" /var/www/html/wordpress/wp-config.php
-	sed -i "s/localhost/${DB_HOST}/g" /var/www/html/wordpress/wp-config.php
-
+	wp-cli.phar config create --dbname=${DB_NAME} \
+					 --dbuser=${DB_USER} \
+					 --dbpass=${DB_PASSWORD} \
+					 --dbhost=${DB_HOST} \
+					 --path=/var/www/html/wordpress \
+					 --allow-root
 
 	# Install WordPress
-	wp core install --path=/var/www/html/wordpress \
+	wp-cli.phar core install --path=/var/www/html/wordpress \
 					--url=${WP_URL} \
 					--title=${WP_TITLE} \
 					--admin_user=${WP_ADMIN} \
@@ -21,16 +21,13 @@ if [ ! -d /var/www/html/wordpress ]; then
 					--admin_email=${WP_ADMIN_EMAIL} \
 					--allow-root
 	# Create User
-	wp user create ${WP_USER}\
+	wp-cli.phar user create ${WP_USER}\
 				   ${WP_USER_EMAIL} \
 				   --role=editor \
 				   --user_pass=${WP_USER_PASSWORD} \
 				   --path=/var/www/html/wordpress \
 				   --allow-root
 fi
-
-# Set Permissions
-chown -R www-data:www-data /var/www/html/wordpress
 
 # Start PHP
 mkdir -p /run/php

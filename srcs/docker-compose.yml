@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 19:24:50 by eguelin           #+#    #+#              #
-#    Updated: 2024/02/29 18:27:07 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/03/01 17:17:10 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ version: '3.8'
 
 services:
 
+  # Database service
   mariadb:
     container_name: mariadb
     build:
@@ -31,6 +32,7 @@ services:
       - inception
     restart: always
 
+  # Website service
   wordpress:
     container_name: wordpress
     build:
@@ -45,6 +47,7 @@ services:
       - inception
     restart: always
 
+  # Server service
   nginx:
     container_name: nginx
     build: ./requirements/nginx
@@ -62,6 +65,7 @@ services:
 
 volumes:
 
+  # Volumes of the database
   mariadb:
     name: mariadb
     driver: local
@@ -70,6 +74,7 @@ volumes:
       o: 'bind'
       device: '/home/eguelin/volumes'
 
+  # Volumes of the website and server
   wordpress:
     name: wordpress
     driver: local
@@ -80,6 +85,7 @@ volumes:
 
 networks:
 
-    inception:
-      name: inception
-      driver: bridge
+  # Network of the services
+  inception:
+    name: inception
+    driver: bridge
