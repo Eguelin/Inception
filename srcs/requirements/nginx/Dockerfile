@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 15:03:35 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/01 17:15:55 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/03/03 14:10:52 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,4 +33,4 @@ COPY conf/nginx.conf /etc/nginx/conf.d/eguelin.conf
 EXPOSE 443
 
 # Start Nginx
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]

@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 15:03:32 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/01 17:32:06 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/03/03 16:06:29 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,10 @@ RUN apt update -y && \
 
 # Create a database
 RUN service mariadb start && \
-	mariadb -u root -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};" \
-					-e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}';" \
-					-e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';" \
+	mariadb -u root -p"${DB_ROOT_PASSWORD}" \
+					-e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};" \
+					-e "CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';" \
+					-e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';" \
 					-e "FLUSH PRIVILEGES;"
 
 # expose MariaDB port

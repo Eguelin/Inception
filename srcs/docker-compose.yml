@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 19:24:50 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/01 17:17:10 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/03/03 14:24:24 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ services:
   mariadb:
     container_name: mariadb
     build:
-      context: ./requirements/mariadb/
+      context: requirements/mariadb/
       args:
         - DB_ROOT_PASSWORD
         - DB_NAME
@@ -36,7 +36,7 @@ services:
   wordpress:
     container_name: wordpress
     build:
-      context: ./requirements/wordpress/
+      context: requirements/wordpress/
     env_file: .env
     image: wordpress
     volumes:
@@ -50,7 +50,7 @@ services:
   # Server service
   nginx:
     container_name: nginx
-    build: ./requirements/nginx
+    build: requirements/nginx
     image: nginx
     env_file: .env
     ports:
@@ -72,7 +72,7 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/eguelin/volumes'
+      device: 'volumes/mariadb'
 
   # Volumes of the website and server
   wordpress:
@@ -81,7 +81,7 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/eguelin/volumes'
+      device: 'volumes/wordpress'
 
 networks:
 

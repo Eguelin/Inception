@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/28 17:47:48 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/01 17:35:08 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/03/03 14:46:51 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,12 @@ DC		= docker compose
 #                                    Sources                                   #
 # **************************************************************************** #
 
-SRC_DIR			= srcs/
-COMPOSE_FILE	= $(SRC_DIR)docker-compose.yml
+SRCS_DIR		= srcs/
+COMPOSE_FILE	= $(SRCS_DIR)docker-compose.yml
+
+VOLUMES_DIR		= $(SRCS_DIR)volumes/
+MARIADB_DIR		= $(VOLUMES_DIR)mariadb/
+WORDPRESS_DIR	= $(VOLUMES_DIR)wordpress/
 
 # **************************************************************************** #
 #                                     Rules                                    #
@@ -33,7 +37,7 @@ COMPOSE_FILE	= $(SRC_DIR)docker-compose.yml
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(VOLUMES_DIR)
 	$(DC) -f $(COMPOSE_FILE) up --build -d
 
 down:
@@ -45,8 +49,10 @@ clean:
 	$(DC) -f $(COMPOSE_FILE) down --volumes --rmi all
 
 fclean: clean
-	$(DC) -f $(COMPOSE_FILE) down --volumes --rmi all
 	docker system prune --force --all
-	sudo rm -rf /home/eguelin/volumes/*
+	sudo rm -rf $(VOLUMES_DIR)
 
 re: fclean all
+
+$(VOLUMES_DIR):
+	mkdir -p $(MARIADB_DIR) $(WORDPRESS_DIR)
