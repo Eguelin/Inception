@@ -16,7 +16,7 @@ FROM debian:11-slim
 # Install PHP
 RUN apt update -y && \
 	apt upgrade -y && \
-	apt install -y php-fpm php-mysql curl && \
+	apt install -y php-fpm php-mysql curl mariadb-client && \
 	apt clean && \
 	rm -fr /var/lib/apt/lists/*
 

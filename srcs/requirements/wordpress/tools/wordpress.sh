@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Wait for mariadb to be ready
+while ! mariadb -h ${DB_HOST} -u ${DB_USER} -p${DB_PASSWORD} -e "SELECT 1" &> /dev/null; do
+	echo "Waiting for MariaDB to be ready..."
+	sleep 1
+done
+
+# Check if WordPress is already installed
 if [ ! -d /var/www/html/wordpress ]; then
 
 	# Create WordPress Directory
