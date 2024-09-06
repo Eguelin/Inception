@@ -10,8 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-version: '3.8'
-
 services:
 
   # Database service
@@ -72,7 +70,7 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: 'volumes/mariadb'
+      device: '/home/eguelin/data/mariadb'
 
   # Volumes of the website and server
   wordpress:
@@ -81,7 +79,7 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: 'volumes/wordpress'
+      device: '/home/eguelin/data/wordpress'
 
 networks:
 

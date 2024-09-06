@@ -27,7 +27,7 @@ DC		= docker compose
 SRCS_DIR		= srcs/
 COMPOSE_FILE	= $(SRCS_DIR)docker-compose.yml
 
-VOLUMES_DIR		= $(SRCS_DIR)volumes/
+VOLUMES_DIR		= /home/eguelin/data/
 MARIADB_DIR		= $(VOLUMES_DIR)mariadb/
 WORDPRESS_DIR	= $(VOLUMES_DIR)wordpress/
 
