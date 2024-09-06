@@ -28,7 +28,7 @@ RUN apt update -y && \
 
 # Create a database
 RUN service mariadb start && \
-	mariadb -u root -p"${DB_ROOT_PASSWORD}" \
+	mariadb -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}';" \
 					-e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};" \
 					-e "CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';" \
 					-e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';" \
