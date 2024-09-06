@@ -42,6 +42,10 @@ if [ ! -d /var/www/html/wordpress ]; then
 							--allow-root
 fi
 
+# Give permissions to the WordPress directory
+chown -R www-data:www-data /var/www/html/wordpress
+chmod -R 755 /var/www/html/wordpress
+
 # Start PHP
 mkdir -p /run/php
 php-fpm7.4 -F
