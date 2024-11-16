@@ -6,12 +6,12 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 15:03:32 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/03 16:06:29 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/11/16 03:55:35 by eguelin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Import image of the penultimate stable version of Debian
-FROM debian:11-slim
+# Import image of the penultimate stable version of Alpine
+FROM alpine:3.19.3
 
 # Import environment variables
 ARG DB_ROOT_PASSWORD
@@ -20,22 +20,25 @@ ARG DB_USER
 ARG DB_PASSWORD
 
 # Install MariaDB
-RUN apt update -y && \
-	apt upgrade -y && \
-	apt install -y mariadb-server && \
-	apt clean && \
-	rm -fr /var/lib/apt/lists/*
+RUN apk update && \
+	apk upgrade && \
+	apk add --no-cache mariadb mariadb-client openrc && \
+	rm -rf /var/cache/apk/*
 
-# Create a database
-RUN service mariadb start && \
+# Create Database and User
+RUN openrc && \
+	touch /run/openrc/softlevel && \
+	/etc/init.d/mariadb setup && \
+	rc-service mariadb start && \
 	mariadb -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}';" \
 					-e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};" \
-					-e "CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';" \
-					-e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';" \
+					-e "CREATE USER IF NOT EXISTS '${DB_USER}' IDENTIFIED BY '${DB_PASSWORD}';" \
+					-e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}';" \
 					-e "FLUSH PRIVILEGES;"
 
-# expose MariaDB port
+# Expose MariaDB port
 EXPOSE 3306
 
 # Start MariaDB
-CMD [ "mariadbd", "--bind-address=0.0.0.0" ]
+CMD ["mariadbd", "--user=mysql", "--skip-networking=0"]
+
