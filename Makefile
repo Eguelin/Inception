@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/28 17:47:48 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/03 14:46:51 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/11/16 04:11:02 by eguelin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ clean:
 
 fclean: clean
 	docker system prune --force --all
-	sudo rm -rf $(VOLUMES_DIR)
+	sudo rm -fr $(VOLUMES_DIR)
 
 re: fclean all
 

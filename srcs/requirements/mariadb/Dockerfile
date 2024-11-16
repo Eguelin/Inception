@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 15:03:32 by eguelin           #+#    #+#              #
-#    Updated: 2024/11/16 03:55:35 by eguelin          ###   ########.fr        #
+#    Updated: 2024/11/16 04:11:02 by eguelin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ ARG DB_PASSWORD
 RUN apk update && \
 	apk upgrade && \
 	apk add --no-cache mariadb mariadb-client openrc && \
-	rm -rf /var/cache/apk/*
+	rm -fr /var/cache/apk/*
 
 # Create Database and User
 RUN openrc && \
