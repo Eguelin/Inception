@@ -7,14 +7,7 @@ while ! mariadb -h ${DB_HOST} -u ${DB_USER} -p${DB_PASSWORD} -e "SELECT 1" &> /d
 done
 
 # Check if WordPress is already installed
-if [ ! -d /var/www/html/wordpress ]; then
-
-	# Create WordPress Directory
-	mkdir -p /var/www/html/wordpress
-
-	# Move to WordPress Directory
-	cd /var/www/html/wordpress
-
+if [ ! -d /var/www/html/wordpress/wp-content ]; then
 	# Download WordPress
 	wp-cli.phar core download --allow-root
 
@@ -40,6 +33,8 @@ if [ ! -d /var/www/html/wordpress ]; then
 							--role=editor \
 							--user_pass=${WP_USER_PASSWORD} \
 							--allow-root
+
+	echo "WordPress has been installed."
 fi
 
 # Give permissions to the WordPress directory
@@ -47,5 +42,6 @@ chown -R www-data:www-data /var/www/html/wordpress
 chmod -R 755 /var/www/html/wordpress
 
 # Start PHP
+echo "Starting PHP..."
 mkdir -p /run/php
 php-fpm7.4 -F

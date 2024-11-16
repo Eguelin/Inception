@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 15:03:26 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/03 14:10:44 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/11/01 17:40:14 by eguelin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,12 @@ COPY tools/wordpress.sh /usr/local/bin/wordpress.sh
 
 # Set permissions
 RUN chmod +x /usr/local/bin/wordpress.sh
+
+# Create WordPress directory
+RUN mkdir -p /var/www/html/wordpress
+
+# Workdir
+WORKDIR /var/www/html/wordpress
 
 # Expose PHP-FPM port
 EXPOSE 9000
