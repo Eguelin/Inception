@@ -6,7 +6,7 @@
 #    By: eguelin <eguelin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/27 19:24:50 by eguelin           #+#    #+#              #
-#    Updated: 2024/03/03 14:24:24 by eguelin          ###   ########lyon.fr    #
+#    Updated: 2024/11/17 01:36:49 by eguelin          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,9 @@ services:
   # Website service
   wordpress:
     container_name: wordpress
-    build:
-      context: requirements/wordpress/
-    env_file: .env
+    build: requirements/wordpress/
     image: wordpress
+    env_file: .env
     volumes:
       - wordpress:/var/www/html
     depends_on:
